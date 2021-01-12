@@ -1,0 +1,65 @@
+server:
+  port: 8848
+
+#配置druid的数据源*****************************
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+      url: jdbc:mysql://localhost:3306/test001?useUnicode=trur&characterEncoding=UTF-8&serverTimezone=UTC
+# 配置druid监控*****************************
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+        allow:
+        deny:
+        url-pattern: /druid/*
+        enabled: true
+#前缀后缀配置*****************************
+  mvc:
+    view:
+      prefix: /WEB-INF/
+      suffix: .jsp
+#开启文件上传*****************************
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+#文件访问位置
+  resources:
+    static-locations: file:F:\green_hand\src\main\resources\static\image
+#  redis配置*****************************
+  redis:
+    host: 192.168.2.150
+    password:
+    port: 6379
+    # 连接超时时间（毫秒）
+    timeout: 10
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 20
+        # 连接池中的最大空闲连接
+        max-idle: 20
+        # 连接池中的最小空闲连接
+        min-idle: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 3000
+
+#  mybatis配置*************************************************************************
+mybatis:
+  mapper-locations: classpath:xml/*.xml
+  type-aliases-package: com.jy.entity
+#  配置sql语句的日志
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+#配置启动监听
+#context:
+#  listener:
+#    classes: com.jy.config.ApplicationEventListener
+
+

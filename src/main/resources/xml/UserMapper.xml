@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jy.mapper.UserMapper">
+
+
+    <select id="selectpp" resultType="com.jy.entity.User">
+        select * from user where id=#{id};
+    </select>
+
+    <select id="getsubjectbyterm" resultType="java.lang.String">
+        SELECT
+        id
+        FROM
+        sys_major
+        WHERE
+        enable = 1
+--         order by code asc
+    </select>
+
+    <sql id="sel">
+		ei.id,ei.id
+		id_,ei.detail_area,ei.enable,ei.ep_library,ei.name,ei.sex,ei.birthday,ei.finish_school1,ei.majorid,ei.write_major,
+		ei.finish_school2,ei.Educ1,ei.Educ2,ei.ep_photos,ei.work_time,ei.idcard,ei.now_work_time,ei.home_area,ei.forte,ei.work_unit,
+		ei.job,ei.ep_title
+		eptitle,ei.work_area,ei.post_code,ei.phone_number,ei.political_outlook,ei.email,ei.recommender,ei.recommender_phone,
+		ei.work_experience,ei.achieve,ei.department,ei.usersid,ei.score,ei.lock_reason,ei.lock_remark,ei.phone_repeat,ei.if_confirm
+		FROM expert_info ei
+	</sql>
+
+    <select id="selectbyparam" resultType="java.lang.String">
+        SELECT
+        maa.`name` majorname2
+        FROM expert_info ei
+        LEFT JOIN expert_major em on em.expert =ei.id
+        LEFT JOIN sys_major ma on ma.id=em.major
+        LEFT JOIN (select id,name,parent from sys_major where (type=2 or type=1) and enable=1) maa on maa.id=ma.parent
+        LEFT JOIN (select id,name,parent from sys_major where type=1 and enable=1) maaa on maaa.id=maa.parent
+        WHERE ei.`enable` = 1
+        AND (em.`enable` = 1 or em.`enable` is null)
+        <if test="majorid != null and majorid != ''">
+            and (ma.id=#{majorid} or maa.id=#{majorid} or maaa.id=#{majorid})
+        </if>
+    </select>
+</mapper>
